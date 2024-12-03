@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Details</title>
+    <link rel="icon" type="image/x-icon" href="images/Descartess-Pig.svg">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="bootstrap.min (2).css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-default mt-3 fw-bold">
+        <div class="container">
+            <div class="navbar-header">
+                <img class="icon m-3" src="images/Descartess-Pig.svg" alt="Logo">
+                <a href="index.html" class="navbar-brand">Movie<span class="text-danger">INFO</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="movie" class="well"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        $(document).ready(() => {
+            getMovie();
+        });
+    </script>
+</body>
+</html>

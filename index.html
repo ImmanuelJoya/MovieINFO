@@ -7,7 +7,7 @@
     <title>Movies | MovieINFO</title>
 
     <!--  PWA  -->
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/MovieINFO/public/manifest.json">
     <meta name="theme-color" content="#0d6efd">
 
     <!--  SECURITY  -->
@@ -61,12 +61,12 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
-    <script type="module" src="main.js"></script>
+    <script type="module" src="/MovieINFO/js/main.js"></script>
 
     <!-- =====  SERVICE-WORKER  ===== -->
     <script>
         if ('serviceWorker' in navigator)
-            navigator.serviceWorker.register('/public/service-worker.js');
+            navigator.serviceWorker.register('/MovieINFO/service-worker.js');
     </script>
 
     <!-- =====  DARK-MODE LOGIC  ===== -->

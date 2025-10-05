@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,20 +16,22 @@
 
     <!--  CSS  -->
     <link rel="icon" type="image/x-icon" href="images/Descartess-Pig.svg">
-    <link rel="stylesheet" href="bootstrap.min(2).css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/MovieINFO/bootstrap.min (2).css">
+    <link rel="stylesheet" href="/MovieINFO/public/style.css">
 </head>
 
 <body>
     <!-- =====  DARK-MODE TOGGLE  ===== -->
-    <button id="themeToggle" class="btn btn-sm btn-outline-secondary position-fixed top-0 end-0 m-2" aria-label="Toggle theme">🌗</button>
+    <button id="themeToggle" class="btn btn-sm btn-outline-secondary position-fixed top-0 end-0 m-2"
+        aria-label="Toggle theme">🌗</button>
 
     <!-- =====  NAVBAR  ===== -->
     <nav id="navbar" class="navbar shadow-lg navbar-default fw-bold">
         <div class="container">
             <div class="navbar-header d-flex align-items-center">
                 <img class="icon m-3" src="images/Descartess-Pig.svg" alt="Logo" width="36" height="36">
-                <a href="index.html" class="navbar-brand text-decoration-none">Movie<span class="text-danger">INFO</span></a>
+                <a href="index.html" class="navbar-brand text-decoration-none">Movie<span
+                        class="text-danger">INFO</span></a>
             </div>
         </div>
     </nav>
@@ -42,7 +45,7 @@
                     <div class="search-container">
                         <i class="fas fa-search search-icon"></i>
                         <input type="text" class="form-control" id="searchText"
-                               placeholder="Search for movies, series, or episodes…" autocomplete="off">
+                            placeholder="Search for movies, series, or episodes…" autocomplete="off">
                     </div>
                 </form>
             </div>
@@ -56,8 +59,7 @@
 
     <!-- =====  SCRIPTS  ===== -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-            crossorigin="anonymous"></script>
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
     <script type="module" src="main.js"></script>
 
@@ -69,16 +71,17 @@
 
     <!-- =====  DARK-MODE LOGIC  ===== -->
     <script>
-        const btn  = document.getElementById('themeToggle');
+        const btn = document.getElementById('themeToggle');
         const html = document.documentElement;
         const saved = localStorage.getItem('theme') || 'light';
         html.setAttribute('data-theme', saved);
         btn.onclick = () => {
             const current = html.getAttribute('data-theme');
-            const next    = current === 'light' ? 'dark' : 'light';
+            const next = current === 'light' ? 'dark' : 'light';
             html.setAttribute('data-theme', next);
             localStorage.setItem('theme', next);
         };
     </script>
 </body>
+
 </html>

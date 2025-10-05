@@ -1,20 +1,20 @@
-$(document).ready(() => { 
+$(document).ready(() => {
     // Initialize loading spinner
     const loadingSpinner = '<div class="text-center my-5"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
-    
+
     // Back to top button
     $('body').append('<button id="backToTop" class="btn btn-primary position-fixed bottom-0 end-0 m-4" style="display: none;"><i class="fas fa-arrow-up"></i></button>');
-    
-    $(window).scroll(function() {
+
+    $(window).scroll(function () {
         if ($(this).scrollTop() > 200) {
             $('#backToTop').fadeIn();
         } else {
             $('#backToTop').fadeOut();
         }
     });
-    
+
     $('#backToTop').click(() => {
-        $('html, body').animate({scrollTop: 0}, 'slow');
+        $('html, body').animate({ scrollTop: 0 }, 'slow');
     });
 
     // Real-time search with debounce
@@ -24,32 +24,32 @@ $(document).ready(() => {
         let searchText = $('#searchText').val();
         if (searchText.length > 2) {
             $('#movies').html(loadingSpinner);
-            searchTimeout = setTimeout(() => {
-                getMovies(searchText);
-            }, 500);
+            searchTimeout = setTimeout(() => getMovies(searchText), 500);
         }
     });
 
     $('#searchForm').on('submit', (e) => {
+        e.preventDefault();
         let searchText = $('#searchText').val();
         if (searchText.length > 0) {
             $('#movies').html(loadingSpinner);
             getMovies(searchText);
         }
-        e.preventDefault();
     });
 });
 
 function getMovies(searchText) {
-    axios.get('http://www.omdbapi.com?apikey=5acafce3&s=' + searchText)
+    // FIXED: https + removed extra space
+    axios.get(`https://www.omdbapi.com?apikey=5acafce3&s=${encodeURIComponent(searchText)}`)
         .then((response) => {
             console.log(response);
             let movies = response.data.Search;
             let output = '';
             if (movies) {
                 $.each(movies, (index, movie) => {
-                    // Handle missing poster
-                    const posterUrl = movie.Poster === 'N/A' ? 'https://via.placeholder.com/300x450.png?text=No+Poster+Available' : movie.Poster;
+                    const posterUrl = movie.Poster === 'N/A'
+                        ? 'https://via.placeholder.com/300x450.png?text=No+Poster+Available'
+                        : movie.Poster;
                     output += `
                     <div class="col-md-3 mt-5">
                         <div class="well text-center movie-card">
@@ -59,20 +59,17 @@ function getMovies(searchText) {
                             </div>
                             <h5 class="mt-3 mb-3">${movie.Title}</h5>
                             <a onclick="movieSelected('${movie.imdbID}')" class="btn btn-primary" href="#">Movie Details</a>
-                        </div> 
-                    </div>
-                    `;
+                        </div>
+                    </div>`;
                 });
                 $('#movies').html(output);
             } else {
                 $('#movies').html(`
                     <div class="alert alert-info text-center mt-5">
                         <i class="fas fa-info-circle me-2"></i>
-                        No movies found matching "${searchText}".
-                        <br>
+                        No movies found matching "${searchText}".<br>
                         Try different keywords or check your spelling.
-                    </div>
-                `);
+                    </div>`);
             }
         })
         .catch((err) => {
@@ -80,11 +77,9 @@ function getMovies(searchText) {
             $('#movies').html(`
                 <div class="alert alert-danger text-center mt-5">
                     <i class="fas fa-exclamation-circle me-2"></i>
-                    Something went wrong while fetching the movies.
-                    <br>
-                    Please try again later or contact support if the problem persists.
-                </div>
-            `);
+                    Something went wrong while fetching the movies.<br>
+                    Please try again later.
+                </div>`);
         });
 }
 
@@ -98,28 +93,25 @@ function getMovie() {
     let movieId = sessionStorage.getItem('movieId');
     $('#movie').html('<div class="text-center my-5"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>');
 
-    axios.get('http://www.omdbapi.com?apikey=5acafce3&i=' + movieId)
+    // FIXED: https + removed extra space
+    axios.get(`https://www.omdbapi.com?apikey=5acafce3&i=${encodeURIComponent(movieId)}`)
         .then((response) => {
             console.log(response);
             let movie = response.data;
-            
-            // Create rating stars
+
             const rating = parseFloat(movie.imdbRating);
             const fullStars = Math.floor(rating);
             const hasHalfStar = rating % 1 >= 0.5;
             let starsHtml = '';
-            
             for (let i = 0; i < 10; i++) {
-                if (i < fullStars) {
-                    starsHtml += '<i class="fas fa-star text-warning"></i>';
-                } else if (i === fullStars && hasHalfStar) {
-                    starsHtml += '<i class="fas fa-star-half-alt text-warning"></i>';
-                } else {
-                    starsHtml += '<i class="far fa-star text-warning"></i>';
-                }
+                if (i < fullStars) starsHtml += '<i class="fas fa-star text-warning"></i>';
+                else if (i === fullStars && hasHalfStar) starsHtml += '<i class="fas fa-star-half-alt text-warning"></i>';
+                else starsHtml += '<i class="far fa-star text-warning"></i>';
             }
 
-            const posterUrl = movie.Poster === 'N/A' ? 'https://via.placeholder.com/300x450.png?text=No+Poster+Available' : movie.Poster;
+            const posterUrl = movie.Poster === 'N/A'
+                ? 'https://via.placeholder.com/300x450.png?text=No+Poster+Available'
+                : movie.Poster;
 
             let output = `
             <div class="row rounded-2 mt-3">
@@ -127,9 +119,7 @@ function getMovie() {
                     <img src="${posterUrl}" alt="${movie.Title} Poster" class="thumbnail shadow">
                     <div class="rating-container text-center mt-3">
                         <h4>IMDB Rating</h4>
-                        <div class="stars">
-                            ${starsHtml}
-                        </div>
+                        <div class="stars">${starsHtml}</div>
                         <h3 class="mt-2">${movie.imdbRating}/10</h3>
                         <p class="text-muted">(${movie.imdbVotes} votes)</p>
                     </div>
@@ -139,7 +129,7 @@ function getMovie() {
                     <div class="badges mb-4">
                         <span class="badge bg-primary">${movie.Rated}</span>
                         <span class="badge bg-secondary">${movie.Runtime}</span>
-                        ${movie.Genre.split(', ').map(genre => `<span class="badge bg-info">${genre}</span>`).join(' ')}
+                        ${movie.Genre.split(', ').map(g => `<span class="badge bg-info">${g}</span>`).join(' ')}
                     </div>
                     <ul class="list-group">
                         <li class="list-group-item"><strong>Released:</strong> ${movie.Released}</li>
@@ -158,7 +148,7 @@ function getMovie() {
                             <h3 class="card-title">Plot</h3>
                             <p class="card-text">${movie.Plot}</p>
                             <div class="mt-4">
-                                <a href="http://imdb.com/title/${movie.imdbID}" target="_blank" class="btn btn-primary">
+                                <a href="https://imdb.com/title/${movie.imdbID}" target="_blank" class="btn btn-primary">
                                     <i class="fas fa-external-link-alt me-2"></i>View on IMDB
                                 </a>
                                 <a href="index.html" class="btn btn-outline-secondary ms-2">
@@ -168,8 +158,7 @@ function getMovie() {
                         </div>
                     </div>
                 </div>
-            </div>
-            `;
+            </div>`;
             $('#movie').html(output);
         })
         .catch((err) => {
@@ -177,10 +166,8 @@ function getMovie() {
             $('#movie').html(`
                 <div class="alert alert-danger text-center mt-5">
                     <i class="fas fa-exclamation-circle me-2"></i>
-                    Something went wrong while fetching the movie details.
-                    <br>
-                    Please try again later or contact support if the problem persists.
-                </div>
-            `);
+                    Something went wrong while fetching the movie details.<br>
+                    Please try again later.
+                </div>`);
         });
 }

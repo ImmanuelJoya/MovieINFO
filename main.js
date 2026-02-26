@@ -3,7 +3,7 @@ $(function () {
     const loadingSpinner =
         '<div class="text-center my-5"><div class="spinner-border text-primary" role="status">' +
         '<span class="visually-hidden">Loading…</span></div></div>';
-
+ 
     /* ----- back-to-top ----- */
     $('body').append(
         '<button id="backToTop" class="btn btn-primary position-fixed bottom-0 end-0 m-4" style="display:none;">' +

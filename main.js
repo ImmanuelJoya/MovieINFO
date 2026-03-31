@@ -18,7 +18,7 @@ $(function () {
         $('html,body').animate({ scrollTop: 0 }, 'slow')
     );
 
-    /* ----- live search ----- */
+    /* -----This si live search ----- */
     let searchTimeout;
     const $movies = $('#movies');
     const $search = $('#searchText');

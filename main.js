@@ -61,7 +61,7 @@ function getMovies(query) {
         .catch(() => $('#movies').html(errorTpl()));
 }
 
-/* ----------  DETAIL PAGE  ---------- */
+/* ----------  DETAIL PAGE   ---------- */
 function movieSelected(id) {
     sessionStorage.setItem('movieId', id);
     location.href = 'movie.html';

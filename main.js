@@ -1,4 +1,3 @@
-/*  main.js  –  plain jQuery + Axios  */
 $(function () {  
     const loadingSpinner =
         '<div class="text-center my-5"><div class="spinner-border text-primary" role="status">' +
